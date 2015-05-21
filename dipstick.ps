@@ -1,0 +1,343 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Configuration
+%
+
+/wideChip 0.54 def
+
+/narrowChip 0.25 def
+
+/lineWidth 0.01 def
+
+/textGap 0.02 def
+
+/endSize 0.025 def
+
+/stepSize 0.1 def
+
+/fontHeight 4 72 div def
+
+/chipGap 0.2 def
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Procedures
+%
+
+% Useful utility - return size of a string
+/stringSize {
+    /msg exch def
+    gsave
+        newpath
+            0 0 moveto
+            msg true charpath
+        flattenpath
+        pathbbox 4 2 roll pop pop
+    grestore
+} def
+
+% Draw the outline, title, move to initial position
+/startChip {
+    /chipWidth exch def
+    /pins      exch def
+    /label     exch def
+    % Draw the outline
+    /chipHeight pins 2 idiv stepSize mul endSize 2 mul add def
+    newpath
+        0 0 moveto
+        0 chipHeight rlineto
+        chipWidth 0 rlineto
+        0 chipHeight neg rlineto
+    closepath
+    stroke
+    % Draw the label
+    gsave
+        chipWidth 2 div chipHeight 2 div translate
+        -90 rotate
+        label stringSize exch 2 div neg exch 2 div neg moveto
+        labelFont setfont label show
+    grestore
+    gsave
+        % Prepare to start drawing pins
+        0 chipHeight endSize sub stepSize 2 div sub translate
+        pinFont setfont
+    % grestore in endChip
+} def
+
+% Text on left pins
+/lText {
+    textGap pinFontHeight -2 div moveto show
+    0 stepSize neg translate
+} def
+
+% Switch to doing the right pins
+/flip {
+    chipWidth stepSize translate
+} def
+
+% Text on right pins
+/rText {
+    /msg exch def
+    textGap msg stringwidth pop add neg pinFontHeight -2 div moveto msg show
+    0 stepSize translate
+} def
+
+% Move to next starting position...
+/endChip {
+    grestore
+    chipWidth chipGap add 0 translate
+} def
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Initialisation
+%
+
+72 300 translate
+
+% Everything in inches
+72 72 scale
+
+lineWidth setlinewidth
+
+/pinFont /Helvetica findfont fontHeight scalefont def
+
+/labelFont pinFont def
+
+/pinFontHeight pinFont setfont (X) stringSize exch pop def
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Main chip drawing
+
+% 128k x 8-bit low power CMOS SRAM
+/as6c1008 {
+    (AS6C1008) 32 wideChip startChip
+    (NC)   lText
+    (A16)  lText
+    (A14)  lText
+    (A12)  lText
+    (A7)   lText
+    (A6)   lText
+    (A5)   lText
+    (A4)   lText
+    (A3)   lText
+    (A2)   lText
+    (A1)   lText
+    (A0)   lText
+    (DQ0)  lText
+    (DQ1)  lText
+    (DQ2)  lText
+    (Vss)  lText
+    flip
+    (DQ3)  rText
+    (DQ4)  rText
+    (DQ5)  rText
+    (DQ6)  rText
+    (DQ7)  rText
+    (CE#)  rText
+    (A10)  rText
+    (OE#)  rText
+    (A11)  rText
+    (A9)   rText
+    (A8)   rText
+    (A13)  rText
+    (WE#)  rText
+    (CE2)  rText
+    (A15)  rText
+    (Vcc)  rText
+    endChip
+} def
+
+% Z80 CTC
+/z80ctc {
+    (Z80 CTC) 28 wideChip startChip
+    (D4)     lText
+    (D5)     lText
+    (D6)     lText
+    (D7)     lText
+    (GND)    lText
+    (RD#)    lText
+    (TO0)    lText
+    (TO1)    lText
+    (TO2)    lText
+    (IORQ#)  lText
+    (IEO)    lText
+    (INT#)   lText
+    (IEI)    lText
+    (M1#)    lText
+    flip
+    (CLK)    rText
+    (CE#)    rText
+    (RESET#) rText
+    (CS0)    rText
+    (CS1)    rText
+    (TR3)    rText
+    (TR2)    rText
+    (TR1)    rText
+    (TR0)    rText
+    (Vcc)    rText
+    (D0)     rText
+    (D1)     rText
+    (D2)     rText
+    (D3)     rText
+    endChip
+} def
+
+% Z80 SIO/0
+/z80sio {
+    (Z80 SIO/0) 40 wideChip startChip
+    (D1)      lText
+    (D3)      lText
+    (D5)      lText
+    (D7)      lText
+    (INT#)    lText
+    (IEI)     lText
+    (IEO)     lText
+    (M1#)     lText
+    (Vcc)     lText
+    (WRYA#)   lText
+    (SYNCA#)  lText
+    (RxDA)    lText
+    (RxCA#)   lText
+    (TxCA#)   lText
+    (TxDA)    lText
+    (DTRA#)   lText
+    (RTSA#)   lText
+    (CTSA#)   lText
+    (DCDA#)   lText
+    (CLK)     lText
+    flip
+    (RESET#)  rText
+    (DCDB#)   rText
+    (CTSB#)   rText
+    (RTSB#)   rText
+    (DTRB#)   rText
+    (TxDB)    rText
+    (RxTxCB#) rText
+    (RxDB)    rText
+    (SYNCB#)  rText
+    (WRYB#)   rText
+    (GND)     rText
+    (RD#)     rText
+    (C/D#)    rText
+    (B/A#)    rText
+    (CE#)     rText
+    (IORQ#)   rText
+    (D6)      rText
+    (D4)      rText
+    (D2)      rText
+    (D0)      rText
+    endChip
+} def
+
+% 74LS289
+/74ls289 {
+    (74LS289) 16 narrowChip startChip
+    (A0)  lText
+    (CE#) lText
+    (R/W) lText
+    (D0)  lText
+    (Q0)  lText
+    (D1)  lText
+    (Q1)  lText
+    (GND) lText
+    flip
+    (Q3)  rText
+    (D3)  rText
+    (Q4)  rText
+    (D4)  rText
+    (A3)  rText
+    (A2)  rText
+    (A1)  rText
+    (Vcc) rText
+    endChip
+} def
+
+% 74HCT540
+/74hct540 {
+    (74HCT540) 20 narrowChip startChip
+    (G1#) lText
+    (A1)  lText
+    (A2)  lText
+    (A3)  lText
+    (A4)  lText
+    (A5)  lText
+    (A6)  lText
+    (A7)  lText
+    (A8)  lText
+    (GND) lText
+    flip
+    (Y8)  rText
+    (Y7)  rText
+    (Y6)  rText
+    (Y5)  rText
+    (Y4)  rText
+    (Y3)  rText
+    (Y2)  rText
+    (Y1)  rText
+    (G2#) rText
+    (Vcc) rText
+    endChip
+} def
+
+% 74HC541
+/74hc541 {
+    (74HC541) 20 narrowChip startChip
+    (G1#) lText
+    (A1)  lText
+    (A2)  lText
+    (A3)  lText
+    (A4)  lText
+    (A5)  lText
+    (A6)  lText
+    (A7)  lText
+    (A8)  lText
+    (GND) lText
+    flip
+    (Y8)  rText
+    (Y7)  rText
+    (Y6)  rText
+    (Y5)  rText
+    (Y4)  rText
+    (Y3)  rText
+    (Y2)  rText
+    (Y1)  rText
+    (G2#) rText
+    (Vcc) rText
+    endChip
+} def
+
+% 74HC574
+/74hc574 {
+    (74HC574) 20 narrowChip startChip
+    (OE#) lText
+    (D0)  lText
+    (D1)  lText
+    (D2)  lText
+    (D3)  lText
+    (D4)  lText
+    (D5)  lText
+    (D6)  lText
+    (D7)  lText
+    (GND) lText
+    flip
+    (CP)  rText
+    (Q7)  rText
+    (Q6)  rText
+    (Q5)  rText
+    (Q4)  rText
+    (Q3)  rText
+    (Q2)  rText
+    (Q1)  rText
+    (Q0)  rText
+    (Vcc) rText
+    endChip
+} def
+
+% as6c1008 74ls289 74ls289 74hct540
+
+% z80ctc z80sio
+
+74hc541 74hc574
+74hc541 74hc574
+74hc541 74hc574
+74hc541 74hc574
+
+showpage
