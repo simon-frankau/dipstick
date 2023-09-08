@@ -1,5 +1,8 @@
 # dipstick
 
+![A picture of some ICs with little paper labels on top, identifying
+the pins.](./dipstick.jpg)
+
 *dipstick* is a simple postscript file that you can modify to to
  generate stickers to pop onto DIP ICs.
 
